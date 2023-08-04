@@ -1,0 +1,58 @@
+import java.util.Random;
+
+public class FloatingPointConversion {
+    public static void main(String[] args) {
+        Random random = new Random();
+        
+        System.out.println("S/No.\tDecimal Number\t\tBinary Number\t\tRemarks\n");
+        
+        // Generate and process 50 random floating-point numbers
+        for (int i = 1; i <= 50; i++) {
+            // Generate a random decimal number between 0 and 1000 with at most three decimal points
+            double decimalNumber = random.nextDouble() * 1000.0;
+            decimalNumber = Math.round(decimalNumber * 1000.0) / 1000.0; // Round to three decimal points
+            
+            // Convert the decimal number to binary notation
+            String binaryNumber = convertToBinary(decimalNumber);
+            
+            // Determine the remarks based on the binary number's length
+            String remarks = getRemarks(binaryNumber);
+            
+            // Print the result in a formatted manner
+            System.out.printf("%d.\t%.3f\t\t%s\t%s\n", i, decimalNumber, binaryNumber, remarks);
+        }
+    }
+    
+    // Convert a decimal number to binary notation
+    public static String convertToBinary(double decimal) {
+        long intPart = (long) decimal;
+        double fracPart = decimal - intPart;
+        
+        // Convert the integer part to binary
+        StringBuilder binaryIntPart = new StringBuilder(Long.toBinaryString(intPart));
+        
+        // Convert the fractional part to binary (up to 10 bits)
+        StringBuilder binaryFracPart = new StringBuilder();
+        int maxBits = 10;
+        while (fracPart > 0 && binaryFracPart.length() < maxBits) {
+            fracPart *= 2;
+            if (fracPart >= 1) {
+                binaryFracPart.append('1');
+                fracPart -= 1;
+            } else {
+                binaryFracPart.append('0');
+            }
+        }
+        
+        return binaryIntPart + (binaryFracPart.length() > 0 ? "." + binaryFracPart : "");
+    }
+    
+    // Determine the remarks (Approximate or Exactly) based on binary number's length
+    public static String getRemarks(String binaryNumber) {
+        if (binaryNumber.contains(".") && binaryNumber.substring(binaryNumber.indexOf(".") + 1).length() > 5) {
+            return "Approximate";
+        } else {
+            return "Exactly";
+        }
+    }
+}
