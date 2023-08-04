@@ -1,0 +1,20 @@
+#include <iostream>
+#include <bitset>
+#include <iomanip>
+
+int main() {
+    int decimalNumbers[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,31,100,255,256};
+    int size = sizeof(decimalNumbers) / sizeof(decimalNumbers[0]);
+
+    std::cout << "Decimal\t\tBinary\t\tHexadecimal" << std::endl;
+    std::cout << "-------\t\t------\t\t-----------" << std::endl;
+
+    for (int i = 0; i < size; ++i) {
+        int decimal = decimalNumbers[i];
+        std::bitset<8> binary(decimal); 
+        std::cout << std::setw(2) << decimal << "\t\t" << binary << "\t\t"
+                  << "0x" << std::hex << std::uppercase << decimal << std::dec << std::endl;
+    }
+
+    return 0;
+}
